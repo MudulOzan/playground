@@ -1,15 +1,46 @@
 import React from "react";
 import { Button, Modal } from "react-bootstrap";
+import MyModal from "./myModal";
+import "bootstrap/dist/css/bootstrap.min.css";
 
-export default class App extends React.Component {
+export default class App extends React.Component<
+  {},
+  { show: boolean; events: object }
+> {
   constructor(props: any) {
     super(props);
+    this.state = {
+      show: false,
+      events: [
+        {
+          Title: "Foo",
+          User: {
+            Id: [1]
+          }
+        },
+        {
+          Title: "Bar",
+          User: {
+            Id: [2, 3]
+          }
+        },
+        {
+          Title: "Baz",
+          User: {
+            Id: []
+          }
+        }
+      ]
+    };
   }
-  show = () => {};
 
-  handleClose = () => {};
+  handleClose = () => {
+    this.setState((prevState) => ({ ...prevState, show: false }));
+  };
 
-  handleShow = () => {};
+  handleShow = () => {
+    this.setState((prevState) => ({ ...prevState, show: true }));
+  };
   render() {
     console.log("test");
     return (
@@ -18,11 +49,13 @@ export default class App extends React.Component {
           Launch demo modal
         </Button>
 
-        <Modal show={this.show} onHide={this.handleClose}>
+        <Modal show={this.state.show} onHide={this.handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>Modal heading</Modal.Title>
           </Modal.Header>
-          <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+          <Modal.Body>
+            <MyModal />
+          </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={this.handleClose}>
               Close
